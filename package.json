@@ -1,0 +1,39 @@
+{
+  "name": "marty",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "build": "NODE_ENV=production browserify app.js --standalone App --no-bundle-external -o ./dist/app.js && uglifyjs ./dist/app.js -cm > ./dist/app.min.js",
+    "livereload": "livereloadify ./playground",
+    "start": "npm run watch & npm run livereload & npm run static",
+    "static": "static ./playground --port 3000 --cache 0",
+    "test": "TODO",
+    "watch": "watchify -o ./playground/playground-compiled.js -v -d playground/playground.js"
+  },
+  "author": "UXtemple Limited <hi@uxtemple.com>",
+  "contributors": [
+    "Darío Javier Cravero <dario@uxtemple.com>",
+    "Tom Parandyk <tom@uxtemple.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "flux": "^2.0.1",
+    "react": "^0.13.1"
+  },
+  "devDependencies": {
+    "babelify": "^6.0.2",
+    "browserify": "^9.0.8",
+    "envify": "^3.4.0",
+    "livereloadify": "^2.0.0",
+    "node-static": "^0.7.6",
+    "uglifyjs": "^2.4.10",
+    "watchify": "^3.1.0"
+  },
+  "browserify": {
+    "transform": [
+      "babelify",
+      "envify"
+    ]
+  }
+}
