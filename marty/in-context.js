@@ -1,10 +1,12 @@
-import Marty from './core'
+import { App } from './core'
 import React from 'react'
 
-export default function createContext(Component) {
-  const app = this
-
+export default function inContext(Component, app) {
   class Context extends React.Component {
+    static childContextTypes = {
+      flux: React.PropTypes.instanceOf(App)
+    }
+
     constructor(props) {
       super(props)
       this.displayName = `${Component.displayName}Context`
@@ -12,7 +14,7 @@ export default function createContext(Component) {
 
     getChildContext() {
       return {
-        app: app
+        flux: app
       }
     }
 
@@ -21,9 +23,10 @@ export default function createContext(Component) {
     }
   }
 
-  Context.childContextTypes = {
-    app: React.PropTypes.instanceOf(Marty)
+  if (!Component.contextTypes) {
+    Component.contextTypes = {}
   }
+  Component.contextTypes.flux = React.PropTypes.instanceOf(App)
 
   return Context
 }

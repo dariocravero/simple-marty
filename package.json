@@ -19,7 +19,8 @@
   "license": "MIT",
   "dependencies": {
     "flux": "^2.0.1",
-    "react": "^0.13.1"
+    "react": "^0.13.1",
+    "wolfy87-eventemitter": "^4.2.11"
   },
   "devDependencies": {
     "babelify": "^6.0.2",
