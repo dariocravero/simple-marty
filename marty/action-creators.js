@@ -1,20 +1,20 @@
 export default class ActionCreators {
   static type = 'ActionCreators'
 
-  static use(Module, flux, options = {}) {
-    return new Module({context: {flux}, ...options})
+  static use(Module, marty, options = {}) {
+    return new Module({context: {marty}, ...options})
   }
 
   constructor({context, ...options}) {
     if (!context) {
-      throw('An ActionCreators needs a flux context to work within')
+      throw('An ActionCreators needs a marty context to work within')
     }
 
     this.context = context
   }
 
   dispatch(...args) {
-    return this.context.flux.dispatcher.dispatchAction({
+    return this.context.marty.dispatcher.dispatchAction({
       args,
       type: ActionCreators.type
     });

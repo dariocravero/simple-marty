@@ -4,25 +4,42 @@ import React from 'react'
 const ConstantsFoo = constants(['FOO_DO_SOMETHING'])
 export { ConstantsFoo }
 export class ActionCreatorsFoo extends ActionCreators {
-  doSomething() { this.dispatch(ConstantsFoo.FOO_DO_SOMETHING) }
+  doSomething(val) { this.dispatch(ConstantsFoo.FOO_DO_SOMETHING, val) }
 }
 const ConstantsBar = constants(['BAR_DO_SOMETHING'])
 export { ConstantsBar }
 export class ActionCreatorsBar extends ActionCreators {
   doSomething() { this.dispatch(ConstantsBar.BAR_DO_SOMETHING) }
 }
+export class StoreFoo extends Store {
+  static handlers = {
+    something: ConstantsFoo.FOO_DO_SOMETHING
+  }
+
+  getInitialState() {
+    return {
+      some: ''
+    }
+  }
+
+  something(val) {
+    this.state = {
+      some: val
+    }
+  }
+}
 
 export class InnerView extends React.Component {
-  render() { return <div style={{flexDirection: 'row'}}>InnerView flux: {this.context.flux.toString()}</div> }
+  render() { return <div style={{flexDirection: 'row'}}>InnerView marty: {this.context.marty.toString()}</div> }
 }
-InnerView.contextTypes = {flux: React.PropTypes.instanceOf(App)}
+InnerView.contextTypes = {marty: React.PropTypes.instanceOf(App)}
 
 export class View extends React.Component {
   render() {
     return (
-      <div onClick={() => this.context.flux.use(ActionCreatorsFoo).doSomething()}>
+      <div onClick={() => this.context.marty.use(ActionCreatorsFoo).doSomething()}>
         <h1>{this.props.app}</h1>
-        <div style={{flexDirection: 'row'}}>View flux: {this.context.flux.toString()}</div>
+        <div style={{flexDirection: 'row'}}>View marty: {this.context.marty.toString()}</div>
         <InnerView />
       </div>
     )
@@ -30,7 +47,7 @@ export class View extends React.Component {
 }
 // Automatically injected because it's being bound.
 // View.contextTypes = {
-//   flux: React.PropTypes.instanceOf(App)
+//   marty: React.PropTypes.instanceOf(App)
 // }
 
 const foo1 = new App()
@@ -40,7 +57,8 @@ export { foo1, ContextViewFoo1 }
 export class Foo2App extends App {
   // Explicitly load some module with options
   static use = [
-    [ActionCreatorsFoo, {some: 'options'}]
+    [ActionCreatorsFoo, {some: 'options'}],
+    StoreFoo
   ]
 }
 const foo2 = new Foo2App()

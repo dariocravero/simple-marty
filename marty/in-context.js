@@ -4,7 +4,7 @@ import React from 'react'
 export default function inContext(Component, app) {
   class Context extends React.Component {
     static childContextTypes = {
-      flux: React.PropTypes.instanceOf(App)
+      marty: React.PropTypes.instanceOf(App)
     }
 
     constructor(props) {
@@ -14,7 +14,7 @@ export default function inContext(Component, app) {
 
     getChildContext() {
       return {
-        flux: app
+        marty: app
       }
     }
 
@@ -26,7 +26,7 @@ export default function inContext(Component, app) {
   if (!Component.contextTypes) {
     Component.contextTypes = {}
   }
-  Component.contextTypes.flux = React.PropTypes.instanceOf(App)
+  Component.contextTypes.marty = React.PropTypes.instanceOf(App)
 
   return Context
 }

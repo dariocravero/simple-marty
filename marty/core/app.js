@@ -1,13 +1,15 @@
 import { emptyObject, generateId, getName } from '../utils'
 import createDispatcher from './dispatcher'
+import warnings from './warnings'
 
 export default class App {
   static use = []
 
-  constructor() {
+  constructor({disableWarnings = []} = {}) {
     this.dispatcher = createDispatcher()
     this.id = generateId()
     this.instances = emptyObject()
+    this.warnings = warnings(disableWarnings)
 
     this.constructor.use.forEach((Module) => {
       let options = {}
@@ -24,7 +26,7 @@ export default class App {
 
     if (!instance) {
       let fn = typeof Module.use === 'function' ? Module.use : Module
-      instance = this.instances[name] = fn(Module, this, options)
+      instance = this.instances[name] = fn(Module, this, {displayName: name, ...options})
     }
 
     return instance
